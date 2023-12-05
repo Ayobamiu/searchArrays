@@ -462,6 +462,10 @@ int main()
         count++;
     }
 
+    // Make a copy to be used for quick sort
+    DoublyLinkedList *gamesLinkedListCopyForSort = copyLinkedList(gamesLinkedList);
+    // Make a copy to be used for linear search test later
+    DoublyLinkedList *gamesLinkedListCopyForLinearSearch = copyLinkedList(gamesLinkedList);
     /*
  Randomly choose an item from the original linked list and then perform linear search based on the name of the item you chose.
  Report the item details you are searching for. Report the time spent searching for the item.
@@ -525,8 +529,6 @@ int main()
     // Record the start time for insertion sort
     auto insertion_start_time = chrono::high_resolution_clock::now();
 
-    DoublyLinkedList *gamesLinkedListCopyForSort = copyLinkedList(gamesLinkedList);
-
     // Perform insertion sort
     gamesLinkedList->insertionSort();
 
@@ -540,7 +542,7 @@ int main()
     // Record the start time for quicksort
     auto quicksort_start_time = chrono::high_resolution_clock::now();
 
-    // Perform quicksort
+    // Perform quicksort on a copy of the list
     gamesLinkedListCopyForSort->quickSort();
 
     // Record the end time for quicksort
@@ -609,6 +611,31 @@ int main()
     int averageAfterSort3 = (totalTimeSpentAfterSort3 + timeSpentAfterSort3) / 6;
     cout << "Average search time: " << averageAfterSort3 << " nanoseconds." << endl
          << endl;
+
+
+    /* 
+    
+    QS 
+    LS 
+    BS
+
+    select a game,
+    do a linear search = LS
+    do a binary search = BS
+
+    LST = LS
+    BST = QS + BS
+    m = 0;
+    while(LST < BST){
+        LST += LS;
+        BST += BS
+        m++;
+    }
+
+    Break point m = xxxx between repeated linear searches and sort-once & multiple binary searches.
+     */
+
+
 
     fclose(gameFilePointer);
     return 0;
