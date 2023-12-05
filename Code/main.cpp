@@ -13,6 +13,7 @@ FILE *gameFilePointer = NULL;
 GAME_ *parseGame(char *game);
 int generateRandomNumber(int max);
 void printGameItem(GAME_ *game);
+void swap(GAME_ *a, GAME_ *b);
 
 class node
 {
@@ -393,6 +394,29 @@ long long getTimeForBinarySearch(node *gameNode, BinarySearchTree bst)
     return duration.count();
 }
 
+DoublyLinkedList *copyLinkedList(DoublyLinkedList *originalList)
+{
+    DoublyLinkedList *copiedList = new DoublyLinkedList(nullptr);
+
+    // Iterate through the original list and copy each node
+    node *current = originalList->head;
+    while (current != nullptr)
+    {
+        // Create a new node with a copy of the game data
+        GAME_ *gameCopy = new GAME_;
+        *gameCopy = *(current->game); // Assuming a shallow copy is sufficient
+
+        node *newNode = new node(gameCopy);
+
+        // Insert the new node into the copied list
+        copiedList->insertTail(newNode);
+
+        current = current->next;
+    }
+
+    return copiedList;
+}
+
 int main()
 {
     gameFilePointer = fopen("games.csv", "r");
@@ -501,10 +525,10 @@ int main()
     // Record the start time for insertion sort
     auto insertion_start_time = chrono::high_resolution_clock::now();
 
-    DoublyLinkedList *gamesLinkedListCopyForSort = gamesLinkedList;
+    DoublyLinkedList *gamesLinkedListCopyForSort = copyLinkedList(gamesLinkedList);
 
     // Perform insertion sort
-    gamesLinkedListCopyForSort->insertionSort();
+    gamesLinkedList->insertionSort();
 
     // Record the end time for insertion sort
     auto insertion_end_time = chrono::high_resolution_clock::now();
@@ -517,7 +541,7 @@ int main()
     auto quicksort_start_time = chrono::high_resolution_clock::now();
 
     // Perform quicksort
-    gamesLinkedList->quickSort();
+    gamesLinkedListCopyForSort->quickSort();
 
     // Record the end time for quicksort
     auto quicksort_end_time = chrono::high_resolution_clock::now();
@@ -525,7 +549,6 @@ int main()
     // Calculate and print the time taken for quicksort
     auto quicksort_duration = chrono::duration_cast<chrono::nanoseconds>(quicksort_end_time - quicksort_start_time);
     cout << "Quick Sort Time: " << quicksort_duration.count() << " nanoseconds" << endl;
-
     cout << "After sorting:" << endl;
     cout << "# Print only first 5 elements from linked list, for example:" << endl;
     for (int i = 0; i < 5; i++)
@@ -671,4 +694,11 @@ int generateRandomNumber(int max)
     // Generate a random number between 0 and 89
     int random_number = rand() % (max + 1);
     return random_number;
+}
+
+void swap(GAME_ *a, GAME_ *b)
+{
+    GAME_ t = *a;
+    *a = *b;
+    *b = t;
 }
