@@ -20,8 +20,8 @@ GAME_ *binarySearch(const vector<GAME_ *> &gamesArray, const char *targetName);
 void insertionSort(vector<GAME_ *> &gamesArray);
 int partition(vector<GAME_ *> &gamesArray, int low, int high);
 void quickSort(vector<GAME_ *> &gamesArray, int low, int high);
-long long getTimeForLinearSearch(node *gameNode, vector<GAME_ *> games);
-long long getTimeForBinarySearch(node *gameNode, vector<GAME_ *> games);
+long long getTimeForLinearSearch(char *gameName, vector<GAME_ *> games);
+long long getTimeForBinarySearch(char *gameName, vector<GAME_ *> games);
 
 
 class DoublyLinkedList
@@ -265,9 +265,9 @@ int main()
     Report the item details you are searching for. Report the time spent searching for the item.
     */
 
-    node *randomItem1 = gamesLinkedList->findNodeByIndex(generateRandomNumber(gamesLinkedList->length));
-    node *randomItem2 = gamesLinkedList->findNodeByIndex(generateRandomNumber(gamesLinkedList->length));
-    node *randomItem3 = gamesLinkedList->findNodeByIndex(generateRandomNumber(gamesLinkedList->length));
+    char *randomItem1 = gamesLinkedList->findNodeByIndex(generateRandomNumber(gamesLinkedList->length))->game->name;
+    char *randomItem2 = gamesLinkedList->findNodeByIndex(generateRandomNumber(gamesLinkedList->length))->game->name;
+    char *randomItem3 = gamesLinkedList->findNodeByIndex(generateRandomNumber(gamesLinkedList->length))->game->name;
 
     cout << "Number of elements in LinkedList: " << gamesLinkedList->length << endl
          << endl;
@@ -285,7 +285,7 @@ int main()
     }
     cout << endl;
     cout << "Search number 1:" << endl;
-    cout << "Searching for " << randomItem1->game->name << "..." << endl;
+    cout << "Searching for " << randomItem1 << "..." << endl;
     int lsTime1 = getTimeForLinearSearch(randomItem1, gamesArray);
     cout << "Single search time: " << lsTime1 << " nanoseconds." << endl;
     int totalLStime1 = 0;
@@ -299,7 +299,7 @@ int main()
          << endl;
 
     cout << "Search number 2:" << endl;
-    cout << "Searching for " << randomItem2->game->name << "..." << endl;
+    cout << "Searching for " << randomItem2 << "..." << endl;
     int lsTime2 = getTimeForLinearSearch(randomItem2, gamesArray);
     cout << "Single search time: " << lsTime2 << " nanoseconds." << endl;
     int totalLSTime2 = 0;
@@ -313,7 +313,7 @@ int main()
          << endl;
 
     cout << "Search number 3:" << endl;
-    cout << "Searching for " << randomItem3->game->name << "..." << endl;
+    cout << "Searching for " << randomItem3 << "..." << endl;
     int lsTime3 = getTimeForLinearSearch(randomItem3, gamesArray);
     cout << "Single search time: " << lsTime3 << " nanoseconds." << endl;
     int totalLSTime3 = 0;
@@ -355,7 +355,7 @@ int main()
          << endl;
 
     cout << "Search number 1:" << endl;
-    cout << "Searching for " << randomItem1->game->name << "..." << endl;
+    cout << "Searching for " << randomItem1 << "..." << endl;
     int bsTime1 = getTimeForBinarySearch(randomItem1, gamesArray);
     cout << "Single search time: " << bsTime1 << " nanoseconds." << endl;
     int totalbsTime1 = 0;
@@ -369,7 +369,7 @@ int main()
          << endl;
 
     cout << "Search number 2:" << endl;
-    cout << "Searching for " << randomItem2->game->name << "..." << endl;
+    cout << "Searching for " << randomItem2 << "..." << endl;
     int bsTime2 = getTimeForBinarySearch(randomItem2, gamesArray);
     cout << "Single search time: " << bsTime2 << " nanoseconds." << endl;
     int totalbsTime2 = 0;
@@ -383,7 +383,7 @@ int main()
          << endl;
 
     cout << "Search number 3:" << endl;
-    cout << "Searching for " << randomItem3->game->name << "..." << endl;
+    cout << "Searching for " << randomItem3 << "..." << endl;
     int bsTime3 = getTimeForBinarySearch(randomItem3, gamesArray);
     cout << "Single search time: " << bsTime3 << " nanoseconds." << endl;
     int totalbsTime3 = 0;
@@ -612,19 +612,19 @@ void quickSort(vector<GAME_ *> &gamesArray, int low, int high)
     }
 }
 
-long long getTimeForLinearSearch(node *gameNode, vector<GAME_ *> games)
+long long getTimeForLinearSearch(char *gameName, vector<GAME_ *> games)
 {
     auto start_time = chrono::high_resolution_clock::now();
-    GAME_ *gameFound = linearSearch(games, gameNode->game->name);
+    GAME_ *gameFound = linearSearch(games, gameName);
     auto end_time = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::nanoseconds>(end_time - start_time);
     return duration.count();
 }
 
-long long getTimeForBinarySearch(node *gameNode, vector<GAME_ *> games)
+long long getTimeForBinarySearch(char *gameName, vector<GAME_ *> games)
 {
     auto start_time = chrono::high_resolution_clock::now();
-    binarySearch(games, gameNode->game->name);
+    binarySearch(games, gameName);
     auto end_time = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::nanoseconds>(end_time - start_time);
     return duration.count();
